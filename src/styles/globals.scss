@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -12,6 +14,10 @@
 
 html,
 body {
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 500;
+  color: white;
+
   max-width: 100vw;
   overflow-x: hidden;
 }
@@ -19,7 +25,11 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 500;
+  color: white;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -40,3 +50,8 @@ a {
     color-scheme: dark;
   }
 }
+
+.noselect {
+  user-select: none;
+}
+

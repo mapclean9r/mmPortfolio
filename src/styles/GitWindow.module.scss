@@ -1,0 +1,90 @@
+.git-window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+.urlBar {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #2e3a4b;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+
+    .prefix {
+        color: #7fbbff;
+    }
+
+
+
+    .created {
+        margin-left: auto;
+        color: #94a3b8;
+    }
+}
+
+.header {
+    font-weight: bold;
+    display: grid;
+    grid-template-columns: 1fr 80px 100px;
+    padding: 0.5rem 1rem 0.3rem;
+    font-size: 0.75rem;
+    color: #cbd5e1;
+    border-bottom: 1px solid #475569;
+
+    span {
+        &:nth-child(2),
+        &:nth-child(3) {
+        text-align: right;
+        }
+    }
+}
+
+.list {
+    overflow-y: auto;
+    flex-grow: 1;
+    font-size: 1rem;
+    min-height: 0;
+    }
+
+    .row {
+    display: grid;
+    grid-template-columns: 1fr 80px 100px;
+    align-items: center;
+    padding: 0.25rem 1rem;
+    cursor: pointer;
+    color: #e2e8f0;
+
+    &:hover {
+        background-color: #334155;
+    }
+
+    span:nth-child(2),
+    span:nth-child(3) {
+        text-align: right;
+    }
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    border-top: 1px solid #475569;
+}
+
+.error {
+    color: #f87171;
+    padding: 0.5rem 1rem;
+}
