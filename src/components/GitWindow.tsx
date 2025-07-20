@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BaseWindow from "./BaseWindow";
 import styles from "@/styles/GitWindow.module.scss";
+import { useGithubRepos } from "@/hooks/useGithubRepos";
+import { useGithubRepoContents } from "@/hooks/useGithubRepoContents";
 
 type Entry = {
   name: string;
@@ -20,57 +22,21 @@ type Repo = {
 type Props = {
   onClose: () => void;
   onFocus?: () => void;
-  zIndex: number; // 👈 NYTT
+  zIndex: number;
 };
 
 export default function GitWindow({ onClose, onFocus, zIndex }: Props) {
-  const [repos, setRepos] = useState<Repo[]>([]);
-  const [selectedRepo, setSelectedRepo] = useState<string | null>(null);
-  const [entries, setEntries] = useState<Entry[]>([]);
-  const [currentPath, setCurrentPath] = useState<string[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [repoDates, setRepoDates] = useState<Record<string, string>>({});
-
   const githubUser = "mapclean9r";
 
-  useEffect(() => {
-    const fetchRepos = async () => {
-      try {
-        const res = await fetch(`https://api.github.com/users/${githubUser}/repos`);
-        if (!res.ok) throw new Error("Kunne ikke hente repos");
-        const data = await res.json();
-        setRepos(data);
-        const dates: Record<string, string> = {};
-        data.forEach((r: any) => (dates[r.name] = r.created_at));
-        setRepoDates(dates);
-        setError(null);
-      } catch (err: any) {
-        setError(err.message);
-        setRepos([]);
-      }
-    };
+  const [selectedRepo, setSelectedRepo] = useState<string | null>(null);
+  const [currentPath, setCurrentPath] = useState<string[]>([]);
 
-    fetchRepos();
-  }, [githubUser]);
-
-  useEffect(() => {
-    const loadDirectory = async () => {
-      if (!selectedRepo) return;
-      const path = currentPath.join("/");
-      const url = `https://api.github.com/repos/${githubUser}/${selectedRepo}/contents/${path}`;
-      try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`404: ${url}`);
-        const data = await res.json();
-        setEntries(Array.isArray(data) ? data : []);
-        setError(null);
-      } catch (err: any) {
-        setError(err.message);
-        setEntries([]);
-      }
-    };
-    loadDirectory();
-  }, [selectedRepo, currentPath, githubUser]);
+  const { repos, error: repoError, repoDates } = useGithubRepos(githubUser);
+  const { entries, error: contentError } = useGithubRepoContents(
+    githubUser,
+    selectedRepo,
+    currentPath
+  );
 
   const formatSize = (bytes?: number) => {
     if (!bytes) return "<dir>";
@@ -100,7 +66,6 @@ export default function GitWindow({ onClose, onFocus, zIndex }: Props) {
           {!selectedRepo && (
             <span className={styles.prefix}>https://github.com/{githubUser}</span>
           )}
-
           {selectedRepo && repoDates[selectedRepo] && (
             <span className={styles.created}>
               Created: {formatDate(repoDates[selectedRepo])}
@@ -115,7 +80,9 @@ export default function GitWindow({ onClose, onFocus, zIndex }: Props) {
         </div>
 
         <div className={styles.list}>
-          {error && <div className={styles.error}>Feil: {error}</div>}
+          {(repoError || contentError) && (
+            <div className={styles.error}>Feil: {repoError || contentError}</div>
+          )}
 
           {selectedRepo && (
             <div
@@ -138,7 +105,10 @@ export default function GitWindow({ onClose, onFocus, zIndex }: Props) {
             repos.map((repo, index) => (
               <div
                 key={index}
-                onClick={() => setSelectedRepo(repo.name)}
+                onClick={() => {
+                  setSelectedRepo(repo.name);
+                  setCurrentPath([]);
+                }}
                 className={styles.row}
               >
                 <span>📁 {repo.name}</span>
