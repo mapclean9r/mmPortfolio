@@ -7,11 +7,11 @@ export type DraggableIconProps = {
   initialX?: number;
   initialY?: number;
   gridSize?: number;
-  margin?: number;
   id: number;
   isSelected: boolean;
   onClick: () => void;
   onDoubleClick?: () => void;
+  bounds?: DOMRect;
 };
 
 export default function Icon({
@@ -19,11 +19,11 @@ export default function Icon({
   initialX = 100,
   initialY = 100,
   gridSize = 40,
-  margin = 40,
   id,
   isSelected,
   onClick,
   onDoubleClick,
+  bounds,
 }: DraggableIconProps) {
   const [position, setPosition] = useState({ x: initialX, y: initialY });
   const [ghostPosition, setGhostPosition] = useState({ x: 0, y: 0 });
@@ -68,39 +68,34 @@ export default function Icon({
       const snappedX = Math.round(ghostPosition.x / gridSize) * gridSize;
       const snappedY = Math.round(ghostPosition.y / gridSize) * gridSize;
 
-      const maxX = window.innerWidth - iconWidth - margin;
-      const maxY = window.innerHeight - iconHeight - margin;
+      let newX = snappedX;
+      let newY = snappedY;
 
-      setPosition({
-        x: clamp(snappedX, margin, maxX),
-        y: clamp(snappedY, margin, maxY),
-      });
+      if (bounds) {
+        const minX = bounds.left;
+        const maxX = bounds.right - iconWidth;
+        const minY = bounds.top;
+        const maxY = bounds.bottom - iconHeight;
+
+        newX = clamp(newX, minX, maxX);
+        newY = clamp(newY, minY, maxY);
+      }
+
+      setPosition({ x: newX, y: newY });
     }
 
     setDragging(false);
     setIsMouseDown(false);
   };
 
-  const handleResize = () => {
-    const maxX = window.innerWidth - iconWidth - margin;
-    const maxY = window.innerHeight - iconHeight - margin;
-
-    setPosition((pos) => ({
-      x: clamp(pos.x, margin, maxX),
-      y: clamp(pos.y, margin, maxY),
-    }));
-  };
-
   useEffect(() => {
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
-    window.addEventListener("resize", handleResize);
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("resize", handleResize);
     };
-  }, [dragging, ghostPosition, isMouseDown, offset]);
+  }, [dragging, ghostPosition, isMouseDown, offset, bounds]);
 
   return (
     <>
