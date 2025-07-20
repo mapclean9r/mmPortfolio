@@ -10,18 +10,18 @@ import GitWindow from "@/components/GitWindow";
 let windowIdCounter = 1;
 let globalZIndex = 100;
 
+type WindowInstance = {
+  id: number;
+  type: "terminal" | "git";
+  title: string;
+  active: boolean;
+  z: number;
+};
+
 export default function Application() {
   const [windows, setWindows] = useState<WindowInstance[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [selectedIconId, setSelectedIconId] = useState<number | null>(null);
-
-  type WindowInstance = {
-    id: number;
-    type: "terminal" | "git";
-    title: string;
-    active: boolean;
-    z: number;
-  };
 
   const openWindow = (type: "terminal" | "git") => {
     const newId = windowIdCounter++;

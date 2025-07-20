@@ -6,19 +6,6 @@ import styles from "@/styles/GitWindow.module.scss";
 import { useGithubRepos } from "@/hooks/useGithubRepos";
 import { useGithubRepoContents } from "@/hooks/useGithubRepoContents";
 
-type Entry = {
-  name: string;
-  path: string;
-  type: "file" | "dir";
-  size?: number;
-  download_url?: string;
-};
-
-type Repo = {
-  name: string;
-  created_at: string;
-};
-
 type Props = {
   onClose: () => void;
   onFocus?: () => void;
