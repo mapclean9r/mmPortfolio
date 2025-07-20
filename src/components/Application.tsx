@@ -6,13 +6,15 @@ import Image from "next/image";
 import { useState } from "react";
 import TerminalWindow from "@/components/TerminalWindow";
 import GitWindow from "@/components/GitWindow";
+import SettingsWindow from "./SettingsWindow";
+import useMusicSettings from "@/hooks/useMusicPlayer";
 
 let windowIdCounter = 1;
 let globalZIndex = 100;
 
 type WindowInstance = {
   id: number;
-  type: "terminal" | "git";
+  type: "terminal" | "git" | "settings";
   title: string;
   active: boolean;
   z: number;
@@ -22,10 +24,19 @@ export default function Application() {
   const [windows, setWindows] = useState<WindowInstance[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [selectedIconId, setSelectedIconId] = useState<number | null>(null);
+  
+const {
+  musicPlaying,
+  setMusicPlaying,
+  volume,
+  setVolume,
+} = useMusicSettings();
 
-  const openWindow = (type: "terminal" | "git") => {
+  const openWindow = (type: "terminal" | "git" | "settings") => {
     const newId = windowIdCounter++;
-    const title = type === "terminal" ? "README.md" : "GitHub";
+    const title =
+      type === "terminal" ? "README.md" : 
+      type === "git" ? "GitHub" : "Settings";
 
     setWindows((prev) => [
       ...prev.map((w) => ({ ...w, active: false })),
@@ -97,6 +108,25 @@ export default function Application() {
         }
       />
 
+      <Icon
+        id={3}
+        initialX={300}
+        initialY={100}
+        gridSize={140}
+        isSelected={selectedIconId === 3}
+        onClick={() => setSelectedIconId(3)}
+        onDoubleClick={() => openWindow("settings")}
+        icon={
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <Image src="/settings.png" alt="Settings" width={64} height={64} />
+            <span style={{ color: "white", fontSize: "0.75rem", marginTop: "4px", textAlign: "center" }}>
+              Settings
+            </span>
+          </div>
+        }
+      />
+
+
       {[...windows].map((w) =>
         w.type === "git" ? (
           <GitWindow
@@ -105,6 +135,17 @@ export default function Application() {
             onFocus={() => selectWindow(w.id)}
             zIndex={w.z}
           />
+        ) : w.type === "settings" ? (
+          <SettingsWindow
+          key={w.id}
+          onClose={() => closeWindow(w.id)}
+          onFocus={() => selectWindow(w.id)}
+          zIndex={w.z}
+          musicPlaying={musicPlaying}
+          setMusicPlaying={setMusicPlaying}
+          volume={volume}
+          setVolume={setVolume}
+        />
         ) : (
           <TerminalWindow
             key={w.id}
@@ -114,6 +155,7 @@ export default function Application() {
           />
         )
       )}
+
     </Screen>
   );
 }

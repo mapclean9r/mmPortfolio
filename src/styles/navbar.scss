@@ -1,65 +1,65 @@
 .navbar {
-  height: 5vh;
-  width: 100%;
-  background: linear-gradient(to top, #1a1a1a, #2a2a2a);
-  border-top: 1px solid #444;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: white;
-  font-family: monospace;
-  font-size: 0.85rem;
-  padding: 0 1rem;
-  box-sizing: border-box;
-  gap: 1rem;
+    height: 5vh;
+    width: 100%;
+    background: linear-gradient(to top, #1a1a1a, #2a2a2a);
+    border-top: 1px solid #444;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    font-family: monospace;
+    font-size: 0.85rem;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    gap: 1rem;
 
   .tabs {
-    display: flex;
-    gap: 0.5rem;
-    overflow-x: auto;
-    flex-grow: 1;
-    scrollbar-gutter: stable;
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      flex-grow: 1;
+      scrollbar-gutter: stable;
 
     .tab {
-      display: flex;
-      align-items: center;
-      background-color: #444;
-      border: 1px solid transparent;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      cursor: pointer;
-      min-width: 80px;
-      transition: background-color 0.2s, border-color 0.2s;
+        display: flex;
+        align-items: center;
+        background-color: #444;
+        border: 1px solid transparent;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        min-width: 80px;
+        transition: background-color 0.2s, border-color 0.2s;
 
       &:hover {
-        border-color: #666;
+          border-color: #666;
       }
 
       &.active {
-        background-color: #666;
-        border-color: #0ff;
+          background-color: #666;
+          border-color: #0ff;
       }
 
       .title {
-        max-width: 100px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        display: inline-block;
+          max-width: 100px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          display: inline-block;
       }
 
       .close {
-        margin-left: 0.5rem;
-        background: none;
-        border: none;
-        color: white;
-        font-weight: bold;
-        font-size: 0.9rem;
-        cursor: pointer;
+          margin-left: 0.5rem;
+          background: none;
+          border: none;
+          color: white;
+          font-weight: bold;
+          font-size: 0.9rem;
+          cursor: pointer;
 
-        &:hover {
-          color: red;
-        }
+          &:hover {
+            color: red;
+          }
       }
     }
   }

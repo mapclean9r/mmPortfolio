@@ -1,0 +1,38 @@
+.settings {
+    color: #f8fafc;
+    padding: 1rem;
+    font-family: monospace;
+    font-size: 0.875rem;
+    height: 100%;
+    overflow: auto;
+}
+
+.setting {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+
+    input {
+        all: unset;
+        background-color: rgba(0, 0, 0, 0.24);
+        color: #f8fafc;
+        width: 60px;
+        text-align: center;
+        font-family: monospace;
+
+
+        appearance: textfield;
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+        appearance: none;
+        margin: 0;
+        }
+    }
+}
+
+.key {
+    color: #38bdf8;
+}
