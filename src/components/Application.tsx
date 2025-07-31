@@ -100,9 +100,9 @@ const {
         onDoubleClick={() => openWindow("terminal")}
         icon={
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <Image src="/readme.png" alt="Readme" width={64} height={64} />
+            <Image src="/terminal.png" alt="terminal" width={64} height={64} />
             <span style={{ color: "white", fontSize: "0.75rem", marginTop: "4px", textAlign: "center" }}>
-              README.md
+              Terminal
             </span>
           </div>
         }

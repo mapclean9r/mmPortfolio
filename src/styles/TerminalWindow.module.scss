@@ -1,0 +1,75 @@
+.terminal {
+    background-color: #0d0d0d;
+    color: #33ff33;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 14px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.output {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    white-space: pre-wrap;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.output::-webkit-scrollbar {
+    display: none;
+}
+
+.line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    white-space: pre-wrap;
+    padding: 0 1rem 1rem;
+    border-top: 1px solid #222;
+}
+
+.prompt {
+    color: #00ff00;
+    font-weight: bold;
+    margin-right: 0.25rem;
+}
+
+.path {
+    color: #00cc00;
+    margin-right: 0.5rem;
+}
+
+.cursor {
+    width: 8px;
+    height: 1em;
+    background-color: #33ff33;
+    display: inline-block;
+    animation: blink 1s step-start infinite;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    50% {
+        background-color: transparent;
+    }
+}
+
+.hiddenInput {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.command {
+    font-weight: bold;
+    color: #33ff33;
+}
+
+.response {
+    color: #cccccc;
+}
