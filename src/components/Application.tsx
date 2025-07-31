@@ -35,7 +35,7 @@ const {
   const openWindow = (type: "terminal" | "git" | "settings") => {
     const newId = windowIdCounter++;
     const title =
-      type === "terminal" ? "README.md" : 
+      type === "terminal" ? "Terminal" : 
       type === "git" ? "GitHub" : "Settings";
 
     setWindows((prev) => [
